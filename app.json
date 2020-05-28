@@ -1,0 +1,10 @@
+{
+    "buildpacks": [
+      {
+        "url": "https://github.com/tirkarp/eight.am"
+      },
+      {
+        "url": "heroku/python"
+      }
+    ]
+  }
