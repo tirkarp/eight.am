@@ -39,7 +39,7 @@ def callback():
 
 def schedule_broadcast():
 	tomorrow = date.today() # + datetime.timedelta(days=1)
-	eight_am = time(hour=1, minute=46, tzinfo=timezone.utcoffset(timezone(timedelta(hours=7))))
+	eight_am = time(hour=5, minute=30, tzinfo=timezone.utcoffset(timezone(timedelta(hours=7))))
 	PRICELESS_PIECE_OF_SHIT = datetime.combine(tomorrow, eight_am)
 
 	scheduler.enterabs(PRICELESS_PIECE_OF_SHIT, 1, THE_MOST_IMPORTANT_FUNCTION_OF_ALL_TIME)
