@@ -28,12 +28,11 @@ def callback():
 	try:
 		schedule_broadcast()
 		handler.handle(body, signature)
-
-		t.join()
 	except InvalidSignatureError:
 		print("Invalid signature. Please check your channel access token/channel secret.")
 		abort(400)
 
+	t.join()
 	return 'OK'
 
 
