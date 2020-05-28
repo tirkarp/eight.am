@@ -16,6 +16,7 @@ handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 
 scheduler = sched.scheduler()
 t = Thread(target=scheduler.run)
+t.start()
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -44,7 +45,6 @@ def schedule_broadcast():
 	PRICELESS_PIECE_OF_SHIT = datetime.combine(tomorrow, eight_am)
 
 	scheduler.enterabs(PRICELESS_PIECE_OF_SHIT, 1, THE_MOST_IMPORTANT_FUNCTION_OF_ALL_TIME)
-	t.start()
 
 
 def THE_MOST_IMPORTANT_FUNCTION_OF_ALL_TIME():
