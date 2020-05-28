@@ -40,11 +40,11 @@ def callback():
 
 
 def schedule_broadcast():
-	tomorrow = date.today() # + datetime.timedelta(days=1)
+	tomorrow = date.today() # + timedelta(days=1)
 	eight_am = time(hour=18, minute=30)#, tzinfo=tz.gettz("Asia/Bangkok"))
 	PRICELESS_PIECE_OF_SHIT = datetime.combine(tomorrow, eight_am).timestamp()
 
-	scheduler.enterabs(PRICELESS_PIECE_OF_SHIT, 1, THE_MOST_IMPORTANT_FUNCTION_OF_ALL_TIME)
+	scheduler.enterabs((datetime.now() + timedelta(minutes=1)).timestamp(), 1, THE_MOST_IMPORTANT_FUNCTION_OF_ALL_TIME)
 
 
 def THE_MOST_IMPORTANT_FUNCTION_OF_ALL_TIME():
