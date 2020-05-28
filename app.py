@@ -1,5 +1,5 @@
 import os, sched
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, date, time, timedelta, timezone
 from threading import Thread
 
 from flask import Flask, request, abort
@@ -38,9 +38,9 @@ def callback():
 
 
 def schedule_broadcast():
-	tomorrow = datetime.date.today() # + datetime.timedelta(days=1)
-	eight_am = datetime.time(hour=1, minute=37, tzinfo=timezone.utcoffset(timezone(timedelta(hours=7))))
-	PRICELESS_PIECE_OF_SHIT = datetime.datetime.combine(tomorrow, eight_am)
+	tomorrow = date.today() # + datetime.timedelta(days=1)
+	eight_am = time(hour=1, minute=37, tzinfo=timezone.utcoffset(timezone(timedelta(hours=7))))
+	PRICELESS_PIECE_OF_SHIT = datetime.combine(tomorrow, eight_am)
 
 	scheduler.enterabs(PRICELESS_PIECE_OF_SHIT, 1, THE_MOST_IMPORTANT_FUNCTION_OF_ALL_TIME)
 	t.start()
