@@ -42,7 +42,7 @@ def callback():
 def schedule_broadcast():
 	tomorrow = date.today() # + datetime.timedelta(days=1)
 	eight_am = time(hour=4, minute=45, tzinfo=tz.gettz("Asia/Bangkok"))
-	PRICELESS_PIECE_OF_SHIT = datetime.combine(tomorrow, eight_am)
+	PRICELESS_PIECE_OF_SHIT = datetime.combine(tomorrow, eight_am).timestamp
 
 	scheduler.enterabs(PRICELESS_PIECE_OF_SHIT, 1, THE_MOST_IMPORTANT_FUNCTION_OF_ALL_TIME)
 
