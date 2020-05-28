@@ -56,6 +56,7 @@ def THE_MOST_IMPORTANT_FUNCTION_OF_ALL_TIME():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+	line_bot_api.broadcast(TextSendMessage(text='8am'))
 	line_bot_api.reply_message(
 		event.reply_token,
 		TextSendMessage(text=event.message.text.upper())
