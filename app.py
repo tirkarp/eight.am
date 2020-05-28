@@ -39,7 +39,7 @@ def callback():
 
 def schedule_broadcast():
 	tomorrow = date.today() # + datetime.timedelta(days=1)
-	eight_am = time(hour=1, minute=37, tzinfo=timezone.utcoffset(timezone(timedelta(hours=7))))
+	eight_am = time(hour=1, minute=39, tzinfo=timezone.utcoffset(timezone(timedelta(hours=7))))
 	PRICELESS_PIECE_OF_SHIT = datetime.combine(tomorrow, eight_am)
 
 	scheduler.enterabs(PRICELESS_PIECE_OF_SHIT, 1, THE_MOST_IMPORTANT_FUNCTION_OF_ALL_TIME)
@@ -48,7 +48,7 @@ def schedule_broadcast():
 
 def THE_MOST_IMPORTANT_FUNCTION_OF_ALL_TIME():
 	# schedule the next event 24 hours from now
-	scheduler.enter(24 * 60 * 60, 1, THE_MOST_IMPORTANT_FUNCTION_OF_ALL_TIME)
+	scheduler.enter(3, 1, THE_MOST_IMPORTANT_FUNCTION_OF_ALL_TIME)
 
 	line_bot_api.broadcast(TextSendMessage(text='8am'))
 
