@@ -27,7 +27,7 @@ def callback():
 
 	# handle webhook body
 	try:
-		#schedule_broadcast()
+		schedule_broadcast()
 		handler.handle(body, signature)
 	except InvalidSignatureError:
 		print("Invalid signature. Please check your channel access token/channel secret.")
@@ -37,20 +37,20 @@ def callback():
 	return 'OK'
 
 
-# def schedule_broadcast():
-# 	tomorrow = date.today() # + datetime.timedelta(days=1)
-# 	eight_am = time(hour=1, minute=46, tzinfo=timezone.utcoffset(timezone(timedelta(hours=7))))
-# 	PRICELESS_PIECE_OF_SHIT = datetime.combine(tomorrow, eight_am)
+def schedule_broadcast():
+	tomorrow = date.today() # + datetime.timedelta(days=1)
+	eight_am = time(hour=1, minute=46, tzinfo=timezone.utcoffset(timezone(timedelta(hours=7))))
+	PRICELESS_PIECE_OF_SHIT = datetime.combine(tomorrow, eight_am)
 
-# 	scheduler.enterabs(PRICELESS_PIECE_OF_SHIT, 1, THE_MOST_IMPORTANT_FUNCTION_OF_ALL_TIME)
-# 	t.start()
+	scheduler.enterabs(PRICELESS_PIECE_OF_SHIT, 1, THE_MOST_IMPORTANT_FUNCTION_OF_ALL_TIME)
+	t.start()
 
 
-# def THE_MOST_IMPORTANT_FUNCTION_OF_ALL_TIME():
-# 	# schedule the next event 24 hours from now
-# 	scheduler.enter(3, 1, THE_MOST_IMPORTANT_FUNCTION_OF_ALL_TIME)
+def THE_MOST_IMPORTANT_FUNCTION_OF_ALL_TIME():
+	# schedule the next event 24 hours from now
+	scheduler.enter(3, 1, THE_MOST_IMPORTANT_FUNCTION_OF_ALL_TIME)
 
-# 	line_bot_api.broadcast(TextSendMessage(text='8am'))
+	line_bot_api.broadcast(TextSendMessage(text='8am'))
 
 
 @handler.add(MessageEvent, message=TextMessage)
