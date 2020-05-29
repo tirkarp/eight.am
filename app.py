@@ -40,6 +40,10 @@ def callback():
 
 
 def schedule_broadcast():
+	"""
+	Schedule the first 8am to send the signature eight.am message.
+	"""
+
 	tomorrow = date.today() + timedelta(days=1)
 	eight_am = time(hour=8, minute=0, tzinfo=tz.gettz("Asia/Bangkok"))
 	starting_time = datetime.combine(tomorrow, eight_am).timestamp()
@@ -48,13 +52,24 @@ def schedule_broadcast():
 
 
 def broadcast():
+	"""
+	Broadcast the signature eight.am message every 24 hours after 8 am.
+	"""
+
 	# schedule the next event 24 hours from now
+	# NOTE: This is impossible to work on Heroku just yet, unless we have high enough traffic
 	scheduler.enter(24 * 60 * 60, 1, broadcast)
 	line_bot_api.broadcast(TextSendMessage(text='WAKEY WAKEY!'))
 	line_bot_api.broadcast(TextSendMessage(text='THY 8 AM HAS ARRIVED!!'))
 
 
 def get_recipient_id(source):
+	"""
+	Return a correct type of ID so messages are sent to the correct place
+
+	source - object according to https://developers.line.biz/en/reference/messaging-api/#source-user
+	"""
+
 	if source.type == 'user':
 		return source.user_id
 	elif source.type == 'group':
@@ -65,7 +80,10 @@ def get_recipient_id(source):
 
 def search_gif(query, random_id):
 	"""
-	Returns a dictionary of GIFs according to https://developers.giphy.com/docs/api/schema/#gif-object
+	Return a dictionary of GIFs according to https://developers.giphy.com/docs/api/schema/#gif-object
+
+	query - a string to search as GIF tag
+	random_id - random ID to tailor GIPHY result experience
 	"""
 
 	res = requests.get('https://api.giphy.com/v1/gifs/random?api_key=' + \
@@ -80,6 +98,13 @@ def search_gif(query, random_id):
 
 
 def send_gif(recipient, query):
+	"""
+	Send a random GIF with `query` tag to `recipient`.
+
+	recipient - a user ID from `get_recipient_id()`
+	query - a string to search as GIF tag
+	"""
+
 	gif = search_gif(query, recipient)
 
 	print(gif['original']['mp4'])
