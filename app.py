@@ -55,7 +55,7 @@ def broadcast():
 
 
 def search_gif(query):
-	res = requests.get('api.giphy.com/v1/gifs/random?api_key=' + \
+	res = requests.get('https://api.giphy.com/v1/gifs/random?api_key=' + \
 		os.getenv('GIPHY_API_KEY') + \
 		'&tag=' + \
 		query
