@@ -61,8 +61,7 @@ def search_gif(query):
 		query
 	)
 
-	print(str(res))
-	vid_url = res['data']['images']
+	vid_url = res.json()['data']['images']
 
 	return vid_url
 
