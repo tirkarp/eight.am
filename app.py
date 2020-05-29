@@ -1,3 +1,5 @@
+# This Python file uses the following encoding: utf-8
+
 import os, sched, requests
 from datetime import datetime, date, time, timedelta
 from dateutil import tz
@@ -17,6 +19,11 @@ handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 scheduler = sched.scheduler()
 t = Thread(target=scheduler.run)
 t.start()
+
+@app.route("/", methods=['GET'])
+def index():
+	return 'Welcome to <i>eight.am</i>! To get started, please add <i>eight.am</i> as a friend on <a href="line.me">LINE</a> and start chatting.'
+
 
 @app.route("/callback", methods=['POST'])
 def callback():
