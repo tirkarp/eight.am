@@ -7,7 +7,7 @@ from flask import Flask, request, abort
 
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, VideoSendMessage
 
 app = Flask(__name__)
 
@@ -60,19 +60,19 @@ def search_gif(query):
 		'&tag=' + \
 		query
 	)
-	img_url = res['data']['images']
-	
-	return img_url
+	vid_url = res['data']['images']
+
+	return vid_url
 
 
-def send_gif(token):
-	gif = search_gif('8 am')
+def send_gif(token, query):
+	gif = search_gif(query)
 
 	line_bot_api.reply_message(
 		token,
-		ImageSendMessage(
-			original_content_url=gif['original']['url'],
-    		preview_image_url=gif['downsized_large']['url']
+		VideoSendMessage(
+			original_content_url=gif['original']['mp4'],
+    		preview_image_url=gif['480w_still']['url']
 		)
 	)
 
@@ -84,7 +84,7 @@ def handle_message(event):
 		event.reply_token,
 		TextSendMessage(text=event.message.text.upper())
 	)
-	send_gif(event.reply.token)
+	send_gif(event.reply.token, '8 am')
 
 
 if __name__ == "__main__":
