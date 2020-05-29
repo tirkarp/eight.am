@@ -1,4 +1,4 @@
-import os, sched
+import os, sched, requests
 from datetime import datetime, date, time, timedelta
 from dateutil import tz
 from threading import Thread
@@ -7,7 +7,7 @@ from flask import Flask, request, abort
 
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage
 
 app = Flask(__name__)
 
@@ -42,16 +42,39 @@ def callback():
 def schedule_broadcast():
 	tomorrow = date.today() # + timedelta(days=1)
 	eight_am = time(hour=18, minute=30)#, tzinfo=tz.gettz("Asia/Bangkok"))
-	PRICELESS_PIECE_OF_SHIT = datetime.combine(tomorrow, eight_am).timestamp()
+	starting_time = datetime.combine(tomorrow, eight_am).timestamp()
 
-	scheduler.enterabs((datetime.now() + timedelta(minutes=1)).timestamp(), 1, THE_MOST_IMPORTANT_FUNCTION_OF_ALL_TIME)
+	scheduler.enterabs((datetime.now() + timedelta(minutes=1)).timestamp(), 1, broadcast)
 
 
-def THE_MOST_IMPORTANT_FUNCTION_OF_ALL_TIME():
+def broadcast():
 	# schedule the next event 24 hours from now
-	scheduler.enter(3, 1, THE_MOST_IMPORTANT_FUNCTION_OF_ALL_TIME)
+	scheduler.enter(3, 1, broadcast)
 
 	line_bot_api.broadcast(TextSendMessage(text='8am'))
+
+
+def search_gif(query):
+	res = requests.get('api.giphy.com/v1/gifs/random?api_key=' + \
+		os.getenv('GIPHY_API_KEY') + \
+		'&tag=' + \
+		query
+	)
+	img_url = res['data']['images']
+	
+	return img_url
+
+
+def send_gif(token):
+	gif = search_gif('8 am')
+
+	line_bot_api.reply_message(
+		token,
+		ImageSendMessage(
+			original_content_url=gif['original']['url'],
+    		preview_image_url=gif['downsized_large']['url']
+		)
+	)
 
 
 @handler.add(MessageEvent, message=TextMessage)
@@ -61,6 +84,7 @@ def handle_message(event):
 		event.reply_token,
 		TextSendMessage(text=event.message.text.upper())
 	)
+	send_gif(event.reply.token)
 
 
 if __name__ == "__main__":
