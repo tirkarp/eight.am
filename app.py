@@ -107,9 +107,6 @@ def send_gif(recipient, query):
 
 	gif = search_gif(query, recipient)
 
-	print(gif['original']['mp4'])
-	print(gif['480w_still']['url'])
-
 	line_bot_api.push_message(
 		recipient,
 		VideoSendMessage(
