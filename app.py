@@ -69,6 +69,9 @@ def search_gif(query):
 def send_gif(token, query):
 	gif = search_gif(query)
 
+	print(gif['original']['mp4'])
+	print(gif['480w_still']['url'])
+	
 	line_bot_api.reply_message(
 		token,
 		VideoSendMessage(
@@ -80,11 +83,8 @@ def send_gif(token, query):
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-	line_bot_api.broadcast(TextSendMessage(text='8am'))
-	line_bot_api.reply_message(
-		event.reply_token,
-		TextSendMessage(text=event.message.text.upper())
-	)
+	line_bot_api.reply_message(event.reply_token, TextSendMessage(text='8 am'))
+	line_bot_api.reply_message(event.reply_token,TextSendMessage(text=event.message.text.upper()))
 	send_gif(event.reply_token, '8 am')
 
 
