@@ -54,6 +54,15 @@ def broadcast():
 	line_bot_api.broadcast(TextSendMessage(text='8am'))
 
 
+def get_recipient_id(source):
+	if source.type == 'user':
+		return source.user_id
+	elif source.type == 'group':
+		return source.group_id
+	elif source.type == 'room':
+		return source.room_id
+
+
 def search_gif(query):
 	res = requests.get('https://api.giphy.com/v1/gifs/random?api_key=' + \
 		os.getenv('GIPHY_API_KEY') + \
@@ -66,14 +75,14 @@ def search_gif(query):
 	return vid_url
 
 
-def send_gif(token, query):
+def send_gif(recipient, query):
 	gif = search_gif(query)
 
 	print(gif['original']['mp4'])
 	print(gif['480w_still']['url'])
 
-	line_bot_api.reply_message(
-		token,
+	line_bot_api.push_message(
+		recipient,
 		VideoSendMessage(
 			original_content_url=gif['original']['mp4'],
     		preview_image_url=gif['480w_still']['url']
@@ -83,14 +92,18 @@ def send_gif(token, query):
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-	line_bot_api.reply_message(event.reply_token, TextSendMessage(text='8 am'))
-	line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text.upper()))
-	send_gif(event.reply_token, '8 am')
+	to = get_recipient_id(event.source)
+
+	line_bot_api.push_message(to, TextSendMessage(text='8 am'))
+	line_bot_api.push_message(to, TextSendMessage(text=event.message.text.upper()))
+	send_gif(to, '8 am')
 
 @handler.default()
 def default(event):
-	line_bot_api.reply_message(event.reply_token, TextSendMessage(text='WAKEY WAKEY!'))	
-	line_bot_api.reply_message(event.reply_token, TextSendMessage(text='IT\'S 8 AM!!'))
+	to = get_recipient_id(event.source)
+	
+	line_bot_api.push_message(to, TextSendMessage(text='WAKEY WAKEY!'))	
+	line_bot_api.push_message(to, TextSendMessage(text='IT\'S 8 AM!!'))
 
 
 if __name__ == "__main__":
