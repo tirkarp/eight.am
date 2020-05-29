@@ -76,7 +76,7 @@ def search_gif(query, random_id):
 		random_id
 	)
 
-	return = res.json()['data']['images']
+	return res.json()['data']['images']
 
 
 def send_gif(recipient, query):
