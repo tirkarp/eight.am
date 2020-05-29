@@ -22,7 +22,7 @@ t.start()
 
 @app.route("/", methods=['GET'])
 def index():
-	return 'Welcome to <i>eight.am</i>! To get started, please add <i>eight.am</i> as a friend on <a href="line.me">LINE</a> and start chatting.'
+	return 'Welcome to <i>eight.am</i>! To get started, please add <i>eight.am</i> as a friend on <a href="https://line.me">LINE</a> and start chatting.'
 
 
 @app.route("/callback", methods=['POST'])
