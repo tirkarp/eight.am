@@ -97,9 +97,13 @@ def send_gif(recipient, query):
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
 	to = get_recipient_id(event.source)
+	
+	echo_string = event.message.text.upper()
+	echo_string = echo_string.replace('I AM', 'YOU ARE')
+	echo_string = echo_string.replace('I\'M', 'YOU\'RE')
 
 	line_bot_api.push_message(to, TextSendMessage(text='8 am'))
-	line_bot_api.push_message(to, TextSendMessage(text=event.message.text.upper()))
+	line_bot_api.push_message(to, TextSendMessage(text=echo_string))
 	send_gif(to, '8 am')
 
 @handler.default()
