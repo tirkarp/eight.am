@@ -63,20 +63,24 @@ def get_recipient_id(source):
 		return source.room_id
 
 
-def search_gif(query):
+def search_gif(query, random_id):
+	"""
+	Returns a dictionary of GIFs according to https://developers.giphy.com/docs/api/schema/#gif-object
+	"""
+
 	res = requests.get('https://api.giphy.com/v1/gifs/random?api_key=' + \
 		os.getenv('GIPHY_API_KEY') + \
 		'&tag=' + \
-		query
+		query + \
+		'&random_id=' + \
+		random_id
 	)
 
-	vid_url = res.json()['data']['images']
-
-	return vid_url
+	return = res.json()['data']['images']
 
 
 def send_gif(recipient, query):
-	gif = search_gif(query)
+	gif = search_gif(query, recipient)
 
 	print(gif['original']['mp4'])
 	print(gif['480w_still']['url'])
@@ -101,7 +105,7 @@ def handle_message(event):
 @handler.default()
 def default(event):
 	to = get_recipient_id(event.source)
-	
+
 	line_bot_api.push_message(to, TextSendMessage(text='WAKEY WAKEY!'))	
 	line_bot_api.push_message(to, TextSendMessage(text='IT\'S 8 AM!!'))
 
