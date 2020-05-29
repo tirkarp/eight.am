@@ -44,7 +44,7 @@ def schedule_broadcast():
 	eight_am = time(hour=8, minute=0, tzinfo=tz.gettz("Asia/Bangkok"))
 	starting_time = datetime.combine(tomorrow, eight_am).timestamp()
 
-	scheduler.enterabs(starting_time.timestamp(), 1, broadcast)
+	scheduler.enterabs(starting_time, 1, broadcast)
 
 
 def broadcast():
