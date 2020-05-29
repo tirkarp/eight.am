@@ -60,6 +60,8 @@ def search_gif(query):
 		'&tag=' + \
 		query
 	)
+
+	print(str(res))
 	vid_url = res['data']['images']
 
 	return vid_url
