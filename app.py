@@ -40,18 +40,18 @@ def callback():
 
 
 def schedule_broadcast():
-	tomorrow = date.today() # + timedelta(days=1)
-	eight_am = time(hour=18, minute=30)#, tzinfo=tz.gettz("Asia/Bangkok"))
+	tomorrow = date.today() + timedelta(days=1)
+	eight_am = time(hour=8, minute=0, tzinfo=tz.gettz("Asia/Bangkok"))
 	starting_time = datetime.combine(tomorrow, eight_am).timestamp()
 
-	scheduler.enterabs((datetime.now() + timedelta(minutes=1)).timestamp(), 1, broadcast)
+	scheduler.enterabs(starting_time.timestamp(), 1, broadcast)
 
 
 def broadcast():
 	# schedule the next event 24 hours from now
-	scheduler.enter(3, 1, broadcast)
-
-	line_bot_api.broadcast(TextSendMessage(text='8am'))
+	scheduler.enter(24 * 60 * 60, 1, broadcast)
+	line_bot_api.broadcast(TextSendMessage(text='WAKEY WAKEY!'))
+	line_bot_api.broadcast(TextSendMessage(text='THY 8 AM HAS ARRIVED!!'))
 
 
 def get_recipient_id(source):
