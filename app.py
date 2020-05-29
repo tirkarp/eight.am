@@ -84,7 +84,7 @@ def handle_message(event):
 		event.reply_token,
 		TextSendMessage(text=event.message.text.upper())
 	)
-	send_gif(event.reply.token, '8 am')
+	send_gif(event.reply_token, '8 am')
 
 
 if __name__ == "__main__":
